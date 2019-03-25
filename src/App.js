@@ -1,28 +1,44 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useEffect, useState } from "react";
+import "./App.css";
+import "@contentful/forma-36-react-components/dist/styles.css";
+import ContentfulSdkContext from "./contexts/contentful-sdk.context";
+import styled from "styled-components";
+import GroupCard from "./components/group-card";
+import AddGroupButton from "./components/add-group-button";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const Container = styled.div`
+  padding: 1rem;
+`;
+
+function App() {
+  const groups = useFieldValue();
+
+  return (
+    <Container>
+      {groups &&
+        groups.map(group => <GroupCard key={group.id} group={group} />)}
+      <AddGroupButton>Add group</AddGroupButton>
+    </Container>
+  );
+}
+
+function useFieldValue() {
+  const [fieldValue, setFieldValueState] = useState([]);
+  const { ingredientsSdk } = useContext(ContentfulSdkContext);
+
+  useEffect(() => {
+    const unsubscribe = ingredientsSdk.onChange(value => {
+      setFieldValueState(value);
+    });
+
+    setFieldValueState(ingredientsSdk.getInitialValue());
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  return fieldValue;
 }
 
 export default App;

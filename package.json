@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@contentful/forma-36-react-components": "^2.10.1",
+    "contentful-ui-extensions-sdk": "^3.7.2",
+    "immutable": "^4.0.0-rc.12",
+    "prop-types": "latest",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "react-select": "^2.4.2",
+    "shortid": "latest",
+    "styled-components": "^4.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
